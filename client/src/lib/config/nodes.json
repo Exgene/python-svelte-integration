@@ -1,0 +1,14 @@
+{
+	"node1": {
+		"name": "Order Tracking",
+		"prompt": "You need to help track orders of the various users only. Please address the following customer inquiry:"
+	},
+	"node2": {
+		"name": "Product Information",
+		"prompt": "You need to provide information about various products related to this question:"
+	},
+	"node3": {
+		"name": "Review Product",
+		"prompt": "Respond with proper reviews fetched from the database for the given asked queries. Please respond to the following query:"
+	}
+}
