@@ -6,7 +6,6 @@ from langgraph.graph import StateGraph, END
 import json
 from IPython.display import Image, display
 
-# Initialize Ollama LLM
 LLM_MODEL = "llama3.2:3b"
 llm = Ollama(model=LLM_MODEL)
 llm_json_mode = Ollama(model=LLM_MODEL, format="json")
@@ -91,16 +90,13 @@ Is the answer relevant and not a hallucination? Return JSON with a single key 'i
 def create_workflow():
     workflow = StateGraph(GraphState)
 
-    # Add nodes
     workflow.add_node("route", route_question)
     for node_key, node_info in NODES.items():
         workflow.add_node(node_key, generate_node_function(node_info))
     workflow.add_node("validator", validator)
 
-    # Set entry point
     workflow.set_entry_point("route")
 
-    # Add edges
     workflow.add_conditional_edges(
         "route",
         lambda x: x["route"],
@@ -109,7 +105,6 @@ def create_workflow():
     for node_key in NODES.keys():
         workflow.add_edge(node_key, "validator")
 
-    # Set conditional edges for validator
     workflow.add_conditional_edges(
         "validator",
         lambda x: x["validator"],
