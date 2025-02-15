@@ -13,7 +13,6 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Configuration
 SVELTE_SERVER_URL = "http://localhost:5173"
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -48,7 +47,6 @@ def process_rag():
         
         print(nodes)
 
-        # Process RAG query and emit results via WebSocket
         result = run_workflow(query, nodes)
         emit_rag_response({"success": True, "result": result})
 
@@ -61,7 +59,8 @@ def process_rag():
 
 def start_node_server():
     client_dir = os.path.join(os.path.dirname(__file__), "client")
-     # Check if Svelte server is already running on port 5173
+
+    # Check if Svelte server is already running on port 5173
     try:
         response = requests.get(SVELTE_SERVER_URL)
         if response.status_code == 200:
@@ -85,10 +84,8 @@ def start_node_server():
             logger.info(f"🚀 Svelte server running at: {local_address}")
             break
         elif "Network:" in line:
-            # Extract and log the network address
             network_address = line.split("Network:")[1].strip()
             logger.info(f"🌐 Network access available at: {network_address}")
-
 
     return node_process
 
@@ -151,7 +148,6 @@ def handle_api_request(path):
     if path == "api/rag":
         return process_rag()
 
-    # Default API response
     return {"error": "API endpoint not found"}, 404
 
 
